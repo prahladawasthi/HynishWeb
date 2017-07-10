@@ -70,7 +70,7 @@ public class RegisterController {
         }
 
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("register");
+            modelAndView.setViewName("commom/register");
         } else { // new user so we create user and send confirmation e-mail
 
             // Disable user until they click on confirmation link in email

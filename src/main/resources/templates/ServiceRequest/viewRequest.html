@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<title>Hynish : View Request</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
+<script
+	th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js}"></script>
+<script
+	th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script>
+	(function(i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+		i[r] = i[r] || function() {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date();
+		a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m)
+	})(window, document, 'script',
+			'https://www.google-analytics.com/analytics.js', 'ga');
+
+	ga('create', 'UA-102021176-2', 'auto');
+	ga('send', 'pageview');
+</script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header">...</div>
+	<br />
+	<br />
+	<br />
+
+	<div
+		class="container text-center loginscreen animated fadeInDowncol-sm-5">
+
+
+		<div
+			class="middle-box text-center loginscreen animated fadeInDown col-sm-4 col-sm-offset-4">
+			<br /> <br />
+
+			<div th:if="${message}" class="alert alert-success" role="alert"
+				th:text=${message}></div>
+
+
+
+			<table id="viewReqTable"
+				class="table table-striped table-bordered text-left" cellspacing="0"
+				width="100%">
+				<tbody>
+					<tr>
+						<td colspan="2" align="center"><b>Service Request Details</b></td>
+
+					</tr>
+					<tr>
+						<td>Title</td>
+						<td th:text="${req.title}"></td>
+					</tr>
+					<tr>
+						<td>Description</td>
+						<td th:text="${req.description}"></td>
+					</tr>
+					<tr>
+						<td>Maintenance Comment</td>
+						<td th:text="${req.maintenanceComment}"></td>
+					</tr>
+					<tr>
+						<td>Tower Number</td>
+						<td th:text="${req.tower}"></td>
+					</tr>
+					<tr>
+						<td>Flat Number</td>
+						<td th:text="${req.flatNo}"></td>
+					</tr>
+					<tr>
+						<td>Raised By</td>
+						<td th:text="${raisedByUser}"></td>
+					</tr>
+					<tr>
+						<td>Assigned To</td>
+						<td th:text="${assignedToUser}"></td>
+					</tr>
+					<tr>
+						<td>Assigned Staff</td>
+						<td th:text="${assignedToStaff}"></td>
+					</tr>
+					<tr>
+						<td>Raised Date</td>
+						<td th:text="${req.raisedDate}"></td>
+					</tr>
+					<tr>
+						<td>Target Date</td>
+						<td th:text="${req.targetDate}"></td>
+					</tr>
+					<tr>
+						<td>Resolved Date</td>
+						<td th:text="${req.resolvedDate}"></td>
+					</tr>
+					<tr>
+						<td>Status</td>
+						<td th:text="${req.currentStatus}"></td>
+					</tr>
+					
+
+
+					<tr>
+						<td colspan="2" align="center">
+							<form class="form-inline" th:action="@{/request/updateReq}"
+								th:object="${req}" method="GET">
+								<input type="hidden" name="id" th:value="${req.id}" />
+								<button type="submit"
+									class="btn btn-primary block full-width m-b">Update</button>
+							</form>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		
+
+
+			<div th:replace="fragments/footer :: footer">...</div>
+
+		</div>
+	</div>
+</body>
+</html>

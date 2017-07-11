@@ -70,6 +70,32 @@ public class ServiceRequestController {
 
 			serviceRequest.setRaisedBy(optional.get().getId());
 			serviceRequest.setCurrentStatus(ServiceRequestStatusEnum.Open.toString());
+
+			if (null != serviceRequest.getUserComment() && !serviceRequest.getUserComment().isEmpty()) {
+				if (null == serviceRequest.getUserCommentList()) {
+					List<String> desList = new ArrayList<String>();
+					desList.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getUserComment());
+					serviceRequest.setUserCommentList(desList);
+				} else {
+					serviceRequest.getUserCommentList()
+							.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getUserComment());
+
+				}
+			}
+			if (null != serviceRequest.getMaintenanceComment() && !serviceRequest.getMaintenanceComment().isEmpty()) {
+				if (null == serviceRequest.getMaintenanceCommentList()
+						&& !serviceRequest.getMaintenanceComment().isEmpty()) {
+					List<String> manList = new ArrayList<String>();
+					manList.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getMaintenanceComment());
+					serviceRequest.setMaintenanceCommentList(manList);
+				} else {
+					serviceRequest.getMaintenanceCommentList()
+							.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getMaintenanceComment());
+				}
+			}
+			serviceRequest.setUserComment(null);
+			serviceRequest.setMaintenanceComment(null);
+
 			serviceRequestService.saveServiceRequest(serviceRequest);
 			modelAndView.addObject("message", "Request raised successfully");
 			modelAndView.addObject("serviceRequest", new ServiceRequest());
@@ -101,6 +127,18 @@ public class ServiceRequestController {
 			if (!serviceRequest.getCurrentStatus().equalsIgnoreCase(ServiceRequestStatusEnum.Close.toString())) {
 				serviceRequest.setResolvedDate(null);
 			}
+			if (null != serviceRequest.getUserComment() && !serviceRequest.getUserComment().isEmpty()) {
+				serviceRequest.getUserCommentList()
+						.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getUserComment());
+
+			}
+			if (null != serviceRequest.getMaintenanceComment() && !serviceRequest.getMaintenanceComment().isEmpty()) {
+				serviceRequest.getMaintenanceCommentList()
+						.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getMaintenanceComment());
+			}
+			serviceRequest.setUserComment(null);
+			serviceRequest.setMaintenanceComment(null);
+
 			serviceRequestService.saveServiceRequest(serviceRequest);
 			modelAndView.addObject("message", reqUpdatedSuccessfully);
 		}
@@ -149,11 +187,15 @@ public class ServiceRequestController {
 		} else {
 			modelAndView.addObject("assignedToUser", serviceRequest.getAssignedTo());
 		}
-		Staff assignedToStaff = staffService.findByID(serviceRequest.getAssignedStaff());
-		modelAndView.addObject("assignedToStaff",
-				assignedToStaff.getFirstName() + " " + assignedToStaff.getLastName()+" ["+assignedToStaff.getStaffType() +"]");
-		modelAndView.setViewName("ServiceRequest/viewRequest");
+		if (!serviceRequest.getAssignedStaff().equalsIgnoreCase("Staff Team")) {
+			Staff assignedToStaff = staffService.findByID(serviceRequest.getAssignedStaff());
+			modelAndView.addObject("assignedToStaff", assignedToStaff.getFirstName() + " "
+					+ assignedToStaff.getLastName() + " [" + assignedToStaff.getStaffType() + "]");
 
+		} else {
+			modelAndView.addObject("assignedToStaff", serviceRequest.getAssignedStaff());
+		}
+		modelAndView.setViewName("ServiceRequest/viewRequest");
 		return modelAndView;
 	}
 

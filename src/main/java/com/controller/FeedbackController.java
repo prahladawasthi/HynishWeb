@@ -3,6 +3,7 @@ package com.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,18 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model.Feedback;
+import com.services.EmailService;
 import com.services.FeedService;
-import com.utils.EmailHelper;
 
 @Controller
 @RequestMapping("/feedback")
 public class FeedbackController {
 
 	private FeedService feedService;
+	private EmailService emailService;
 
 	@Autowired
-	public FeedbackController(FeedService feedService) {
+	public FeedbackController(FeedService feedService, EmailService emailService) {
 		this.feedService = feedService;
+		this.emailService = emailService;
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -39,8 +42,15 @@ public class FeedbackController {
 			feedService.saveFeed(feed);
 			modelAndView.addObject("message", "Thank you for the feedback.");
 			String message = "Thank you for the feedback. /n We are in progress to upgrade this application to serve you better";
-			EmailHelper.sendEmail(feed.getUserEmail(), "Thank you for the Feedback", message,
-					"netsolutionst@gmail.com");
+
+			SimpleMailMessage registrationEmail = new SimpleMailMessage();
+			registrationEmail.setTo(feed.getUserEmail());
+			registrationEmail.setSubject(message);
+			registrationEmail.setText(message);
+			registrationEmail.setFrom("noreply@domain.com");
+
+			emailService.sendEmail(registrationEmail);
+
 		}
 		modelAndView.addObject("feed", new Feedback());
 		modelAndView.setViewName("feedback/feed");

@@ -34,11 +34,11 @@
 	<br />
 
 	<div
-		class="container text-center loginscreen animated fadeInDowncol-sm-5">
+		class="container text-center loginscreen animated fadeInDowncol-sm-6">
 
 
 		<div
-			class="middle-box text-center loginscreen animated fadeInDown col-sm-4 col-sm-offset-4">
+			class="middle-box text-center loginscreen animated fadeInDown col-sm-5 col-sm-offset-4">
 			<br /> <br />
 
 			<div th:if="${message}" class="alert alert-success" role="alert"
@@ -60,11 +60,24 @@
 					</tr>
 					<tr>
 						<td>Description</td>
-						<td th:text="${req.description}"></td>
+						<!-- <td><div th:each="reqd : ${req.description}">
+								<div th:text="${reqd}"></div>
+							</div></td> -->
+						 <td th:text="${req.description}"></td> 
 					</tr>
 					<tr>
-						<td>Maintenance Comment</td>
-						<td th:text="${req.maintenanceComment}"></td>
+						<td>User Comments</td>
+						<td><div th:each="comment : ${req.userCommentList}">
+								<div th:text="${comment}"></div>
+							</div></td>
+						<!-- <td th:text="${req.maintenanceComment}"></td> -->
+					</tr>
+					<tr>
+						<td>Maintenance Comments</td>
+						<td><div th:each="comment : ${req.maintenanceCommentList}">
+								<div th:text="${comment}"></div>
+							</div></td>
+						<!-- <td th:text="${req.maintenanceComment}"></td> -->
 					</tr>
 					<tr>
 						<td>Tower Number</td>
@@ -102,7 +115,7 @@
 						<td>Status</td>
 						<td th:text="${req.currentStatus}"></td>
 					</tr>
-					
+
 
 
 					<tr>
@@ -118,7 +131,7 @@
 
 				</tbody>
 			</table>
-		
+
 
 
 			<div th:replace="fragments/footer :: footer">...</div>

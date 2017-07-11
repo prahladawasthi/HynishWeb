@@ -31,7 +31,11 @@
 				<input type="hidden" name="id" th:value="${serviceRequest.id}" /> <input
 					type="hidden" name="raisedBy" th:value="${serviceRequest.raisedBy}" />
 
-				<input type="hidden" name="raisedDate"
+				<input type="hidden" name="userCommentList"
+					th:value="${serviceRequest.userCommentList}" /> <input
+					type="hidden" name="maintenanceCommentList"
+					th:value="${serviceRequest.maintenanceCommentList}" /> <input
+					type="hidden" name="raisedDate"
 					th:value="${serviceRequest.raisedDate}" /> <input type="hidden"
 					name="resolvedDate" th:value="${#dates.createNow()}" />
 
@@ -52,7 +56,6 @@
 				<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
 					class="validation-message alert alert-danger" role="alert"></div>
 
-
 				<div
 					th:if="${#authorization.expression('hasRole(''ROLE_MAINTENANCE'')')}">
 					<div class="form-group input-group has-feedback">
@@ -61,7 +64,7 @@
 						</span>
 						<textarea rows="5" th:field="*{description}"
 							placeholder="Description" class="form-control"
-							readonly="readonly" />
+							readonly="readonly"></textarea>
 						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 					</div>
 					<div th:if="${#fields.hasErrors('description')}"
@@ -78,7 +81,7 @@
 						</span>
 						<textarea rows="5" th:field="*{description}"
 							placeholder="Description" class="form-control"
-							required="required" />
+							required="required"></textarea>
 						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 					</div>
 					<div th:if="${#fields.hasErrors('description')}"
@@ -87,16 +90,62 @@
 
 				</div>
 
+				<!-- <div class="form-group input-group has-feedback">
+					<span class="input-group-addon"> <span>User Comment</span>
+					</span><span th:each="comment : ${serviceRequest.userCommentList}">
+						<div th:text="${comment}" class="form-control"></div>
+					</span><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				</div> -->
+
+				<div
+					th:if="!${#authorization.expression('hasRole(''ROLE_MAINTENANCE'')')}">
+					<div class="form-group input-group has-feedback">
+						<span class="input-group-addon"> <span
+							class="glyphicon glyphicon-pencil"></span>
+						</span> <input type="text" th:field="*{userComment}"
+							placeholder="User comment" class="form-control" /> <span
+							class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+					<!-- <div th:if="${#fields.hasErrors('userComment')}"
+						th:errors="*{userComment}"
+						class="validation-message alert alert-danger" role="alert"></div> -->
+
+				</div>
+
 				<div
 					th:if="${#authorization.expression('hasRole(''ROLE_MAINTENANCE'')')}">
 					<div class="form-group input-group has-feedback">
 						<span class="input-group-addon"> <span
 							class="glyphicon glyphicon-pencil"></span>
-						</span>
-						<textarea rows="5" th:field="*{maintenanceComment}"
-							placeholder="maintenanceComment" class="form-control"
-							required="required" />
-						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						</span> <input type="text" th:field="*{userComment}"
+							placeholder="User comment" class="form-control"
+							readonly="readonly" /> <span
+							class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+					<!-- <div th:if="${#fields.hasErrors('userComment')}"
+						th:errors="*{userComment}"
+						class="validation-message alert alert-danger" role="alert"></div> -->
+
+				</div>
+
+
+
+				<!-- <div class="form-group input-group has-feedback">
+					<span class="input-group-addon"> <span>Maintenance</span>
+					</span><span th:each="comment : ${serviceRequest.maintenanceCommentList}">
+						<span th:text="${comment}" class="form-control"></span>
+					</span><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				</div> -->
+
+				<div
+					th:if="${#authorization.expression('hasRole(''ROLE_MAINTENANCE'')')}">
+					<div class="form-group input-group has-feedback">
+						<span class="input-group-addon"> <span
+							class="glyphicon glyphicon-pencil"></span>
+						</span><input type="text" th:field="*{maintenanceComment}"
+							placeholder="Maintenance Comment" class="form-control"
+							required="required" /> <span
+							class="glyphicon form-control-feedback" aria-hidden="true"></span>
 					</div>
 					<div th:if="${#fields.hasErrors('maintenanceComment')}"
 						th:errors="*{maintenanceComment}"
@@ -107,11 +156,10 @@
 					<div class="form-group input-group has-feedback">
 						<span class="input-group-addon"> <span
 							class="glyphicon glyphicon-pencil"></span>
-						</span>
-						<textarea rows="5" th:field="*{maintenanceComment}"
+						</span> <input type="text" th:field="*{maintenanceComment}"
 							placeholder="Maintenance Comment" class="form-control"
-							readonly="readonly" />
-						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+							readonly="readonly" /> <span
+							class="glyphicon form-control-feedback" aria-hidden="true"></span>
 					</div>
 					<div th:if="${#fields.hasErrors('maintenanceComment')}"
 						th:errors="*{maintenanceComment}"
@@ -167,7 +215,7 @@
 					<input type="hidden" name="assignedTo"
 						th:value="${serviceRequest.assignedTo}" />
 				</div>
-				
+
 				<div
 					th:if="${(#authorization.expression('hasRole(''ROLE_ADMIN'')')) or  (#authorization.expression('hasRole(''ROLE_MAINTENANCE'')'))}"
 					class="form-group input-group has-feedback">

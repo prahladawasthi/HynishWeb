@@ -11,8 +11,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: email@gmail.com
-    password: password
+    username: netsolutionst@gmail.com
+    password: Sonu@1234
     protocol: smtp
     tls: true
     properties.mail.smtp: 
@@ -36,4 +36,4 @@ spring:
   profiles: prod
   data:
     mongodb:
-      uri: mongodb://user:password@ds113282.mlab.com:13282/CloudFoundry_nqefc3jg_m7oje6p5
+      uri: mongodb://prahlad:test1234@ds113282.mlab.com:13282/CloudFoundry_nqefc3jg_m7oje6p5

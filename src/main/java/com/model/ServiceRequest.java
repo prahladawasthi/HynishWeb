@@ -19,13 +19,13 @@ public class ServiceRequest {
 
 	@Field
 	private List<String> userCommentList;
-	
+
 	@Field
 	private String userComment;
-		
+
 	@Field
 	private List<String> maintenanceCommentList;
-	
+
 	@Field
 	private String maintenanceComment;
 
@@ -40,7 +40,7 @@ public class ServiceRequest {
 
 	@Field
 	private String assignedTo;
-	
+
 	@Field
 	private String assignedStaff;
 
@@ -72,7 +72,6 @@ public class ServiceRequest {
 		this.title = title;
 	}
 
-	
 	public String getRaisedBy() {
 		return raisedBy;
 	}
@@ -137,8 +136,6 @@ public class ServiceRequest {
 		this.flatNo = flatNo;
 	}
 
-	
-
 	public String getAssignedStaff() {
 		return assignedStaff;
 	}
@@ -146,8 +143,6 @@ public class ServiceRequest {
 	public void setAssignedStaff(String assignedStaff) {
 		this.assignedStaff = assignedStaff;
 	}
-
-	
 
 	public String getDescription() {
 		return description;
@@ -189,7 +184,25 @@ public class ServiceRequest {
 		this.userComment = userComment;
 	}
 
-	
+	class CommentModel {
+		String date;
+		String comment;
 
-	
+		public String getDate() {
+			return date;
+		}
+
+		public void setDate(String date) {
+			this.date = date;
+		}
+
+		public String getComment() {
+			return comment;
+		}
+
+		public void setComment(String comment) {
+			this.comment = comment;
+		}
+	}
+
 }

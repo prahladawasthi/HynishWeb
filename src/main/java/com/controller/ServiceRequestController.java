@@ -71,31 +71,6 @@ public class ServiceRequestController {
 			serviceRequest.setRaisedBy(optional.get().getId());
 			serviceRequest.setCurrentStatus(ServiceRequestStatusEnum.Open.toString());
 
-			if (null != serviceRequest.getUserComment() && !serviceRequest.getUserComment().isEmpty()) {
-				if (null == serviceRequest.getUserCommentList()) {
-					List<String> desList = new ArrayList<String>();
-					desList.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getUserComment());
-					serviceRequest.setUserCommentList(desList);
-				} else {
-					serviceRequest.getUserCommentList()
-							.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getUserComment());
-
-				}
-			}
-			if (null != serviceRequest.getMaintenanceComment() && !serviceRequest.getMaintenanceComment().isEmpty()) {
-				if (null == serviceRequest.getMaintenanceCommentList()
-						&& !serviceRequest.getMaintenanceComment().isEmpty()) {
-					List<String> manList = new ArrayList<String>();
-					manList.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getMaintenanceComment());
-					serviceRequest.setMaintenanceCommentList(manList);
-				} else {
-					serviceRequest.getMaintenanceCommentList()
-							.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getMaintenanceComment());
-				}
-			}
-			serviceRequest.setUserComment(null);
-			serviceRequest.setMaintenanceComment(null);
-
 			serviceRequestService.saveServiceRequest(serviceRequest);
 			modelAndView.addObject("message", "Request raised successfully");
 			modelAndView.addObject("serviceRequest", new ServiceRequest());
@@ -127,15 +102,39 @@ public class ServiceRequestController {
 			if (!serviceRequest.getCurrentStatus().equalsIgnoreCase(ServiceRequestStatusEnum.Close.toString())) {
 				serviceRequest.setResolvedDate(null);
 			}
-			if (null != serviceRequest.getUserComment() && !serviceRequest.getUserComment().isEmpty()) {
-				serviceRequest.getUserCommentList()
-						.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getUserComment());
+			if (!(serviceRequest.getUserCommentList().size() > 0)) {
+				serviceRequest.setUserCommentList(new ArrayList<String>());
+			}
+			if (!(serviceRequest.getMaintenanceCommentList().size() > 0)) {
+				serviceRequest.setMaintenanceCommentList(new ArrayList<String>());
+			}
 
-			}
+			if (null != serviceRequest.getUserComment() && !serviceRequest.getUserComment().isEmpty()) {
+				List<String> userComment = serviceRequestService.findRequestByID(serviceRequest.getId())
+						.getUserCommentList();
+				if (null == userComment) {
+					userComment = new ArrayList<String>();
+					userComment.add(serviceRequest.getRaisedDate() + " : " + serviceRequest.getUserComment());
+				} else {
+					userComment.add(serviceRequest.getRaisedDate() + " : " + serviceRequest.getUserComment());
+				}
+				serviceRequest.setUserCommentList(userComment);
+			} else if (!(serviceRequest.getUserCommentList().size() > 0))
+				serviceRequest.getUserCommentList().clear();
+
 			if (null != serviceRequest.getMaintenanceComment() && !serviceRequest.getMaintenanceComment().isEmpty()) {
-				serviceRequest.getMaintenanceCommentList()
-						.add(serviceRequest.getRaisedDate() + " - " + serviceRequest.getMaintenanceComment());
-			}
+				List<String> mainComment = serviceRequestService.findRequestByID(serviceRequest.getId())
+						.getMaintenanceCommentList();
+				if (null == mainComment) {
+					mainComment = new ArrayList<String>();
+					mainComment.add(serviceRequest.getRaisedDate() + " : " + serviceRequest.getMaintenanceComment());
+				} else {
+					mainComment.add(serviceRequest.getRaisedDate() + " : " + serviceRequest.getMaintenanceComment());
+				}
+				serviceRequest.setMaintenanceCommentList(mainComment);
+			} else if (!(serviceRequest.getMaintenanceCommentList().size() > 0))
+				serviceRequest.getMaintenanceCommentList().clear();
+
 			serviceRequest.setUserComment(null);
 			serviceRequest.setMaintenanceComment(null);
 

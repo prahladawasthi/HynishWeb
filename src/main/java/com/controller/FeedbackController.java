@@ -41,11 +41,11 @@ public class FeedbackController {
 		if (!bindingResult.hasErrors()) {
 			feedService.saveFeed(feed);
 			modelAndView.addObject("message", "Thank you for the feedback.");
-			String message = "Thank you for the feedback. /n We are in progress to upgrade this application to serve you better";
+			String message = "Thank you for the feedback. We are in progress to upgrade this application to serve you better";
 
 			SimpleMailMessage registrationEmail = new SimpleMailMessage();
 			registrationEmail.setTo(feed.getUserEmail());
-			registrationEmail.setSubject(message);
+			registrationEmail.setSubject("Thank you for the feedback");
 			registrationEmail.setText(message);
 			registrationEmail.setFrom("noreply@domain.com");
 

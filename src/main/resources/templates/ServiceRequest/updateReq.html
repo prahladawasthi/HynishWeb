@@ -204,7 +204,7 @@
 					<span class="input-group-addon"> <span
 						class="glyphicon glyphicon-user"></span>
 					</span> <select selected="*{assignedTo}" th:field="*{assignedTo}"
-						class="form-control">
+						class="form-control" required>
 
 						<option th:each="main : ${maintenanceTeam}" th:value="${main.id}"
 							th:text="${main.firstName}+ ' ' + ${main.lastName}"></option>
@@ -222,7 +222,7 @@
 					<span class="input-group-addon"> <span
 						class="glyphicon glyphicon-user"></span>
 					</span> <select selected="*{assignedStaff}" th:field="*{assignedStaff}"
-						class="form-control">
+						class="form-control" required>
 
 						<option th:each="staff : ${staffTeam}" th:value="${staff.id}"
 							th:text="${staff.firstName}+ ' ' + ${staff.lastName} +' ['+ ${staff.staffType} +'] '"></option>

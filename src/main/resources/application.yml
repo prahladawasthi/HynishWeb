@@ -19,19 +19,7 @@ spring:
             auth: true
             starttls.enable: true
             ssl.trust: smtp.gmail.com
-
-      
-        
----   
-spring:
-  profiles: dev
-  data:
-    mongodb:
-      database: user_detail
-      host: localhost
-      port: 27017
-      
----     
+            
 spring:
   profiles: prod
   data:

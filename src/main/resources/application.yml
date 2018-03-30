@@ -21,7 +21,6 @@ spring:
             ssl.trust: smtp.gmail.com
             
 spring:
-  profiles: prod
   data:
     mongodb:
       #uri: mongodb://user:password@ds113282.mlab.com:13282/CloudFoundry_nqefc3jg_m7oje6p5

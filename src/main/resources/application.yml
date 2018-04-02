@@ -24,4 +24,4 @@ spring:
   data:
     mongodb:
       #uri: mongodb://user:password@ds113282.mlab.com:13282/CloudFoundry_nqefc3jg_m7oje6p5
-      uri: mongodb://awasthi:awasthi@mongodb/hynishdb
+      uri: mongodb://awasthi:awasthi@mongodb/sampledb
